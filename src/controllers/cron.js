@@ -5,7 +5,7 @@ import {
 }
 from 'mailgun';
 
-let client = redis.createClient();
+let client = redis.createClient(process.env.REDIS_PORT, process.env.REDIS_HOST);
 const mg = new Mailgun(process.env.MAILGUN_API_KEY);
 
 const checkPrimewire = () => {
