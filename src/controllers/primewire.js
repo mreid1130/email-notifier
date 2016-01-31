@@ -11,7 +11,7 @@ export default (next) => {
     (callback) => {
       request('http://www.primewire.ag/index.php?sort=featured', callback);
     }, (res, body, callback) => {
-      let $ = cheerio.load(body, {
+      const $ = cheerio.load(body, {
         lowerCaseTags: true,
         lowerCaseAttributeNames: true
       });
@@ -29,7 +29,7 @@ export default (next) => {
       }
     }, (res, body, callback) => {
       if (res && body) {
-        let $ = cheerio.load(body, {
+        const $ = cheerio.load(body, {
           lowerCaseTags: true,
           lowerCaseAttributeNames: true
         });
