@@ -11,20 +11,20 @@ app.get('*', (req, res) => {
   res.send('pong');
 });
 
-const host = (process.env.NODE_ENV === 'production' ? 'star-wars-notifier.herokuapps.com' : 'localhost')
-
+const host = (process.env.NODE_ENV === 'production' ? 'star-wars-notifier.herokuapp.com' : 'localhost')
+const port = (process.env.NODE_ENV === 'production' ? null : app.get('port'));
 setInterval(() => {
   let start = new Date().getTime();
   console.log('Pinging server...')
   http.get({
     host: host,
     path: '/ping',
-    port: app.get('port')
+    port: port
   }, (res) => {
     let responseTime = new Date().getTime() - start;
     console.log('Server response in', responseTime, 'milliseconds');
   })
-}, 1000 * 60 * 30)
+}, 5000)
 
 app.listen(app.get('port'), function() {
   console.log('Node app is running on port', app.get('port'));
