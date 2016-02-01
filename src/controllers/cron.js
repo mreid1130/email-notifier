@@ -9,7 +9,7 @@ let client = redis.createClient(process.env.REDIS_URL);
 const mg = new Mailgun(process.env.MAILGUN_API_KEY);
 
 const checkPrimewire = () => {
-  const emails = ['mark.francis.reid@gmail.com', 'tosharmila@gmail.com'];
+  const emails = ['mark.francis.reid@gmail.com', 'tosharmila@gmail.com', 'sethmlassen@gmail.com'];
   primewireScraper((err, swUrl) => {
     if (err) {
       console.log(err.stack);
