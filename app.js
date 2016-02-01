@@ -1,7 +1,4 @@
-if (process.env.NODE_ENV !== 'production') {
-  // read .env file unless deployed on production
-  import 'dotenv/config';
-}
+import 'dotenv/config';
 import express from 'express';
 import cron from './src/controllers/cron';
 import http from 'http';
