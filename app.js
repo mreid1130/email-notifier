@@ -15,6 +15,8 @@ app.get('*', (req, res) => {
 // pings server every 30 minutes to keep heroku instance from sleeping
 const host = (process.env.NODE_ENV === 'production' ? 'star-wars-notifier.herokuapp.com' : 'localhost')
 const port = (process.env.NODE_ENV === 'production' ? null : app.get('port'));
+
+// ping server every 30 seconds
 setInterval(() => {
   const start = new Date().getTime();
   console.log('Pinging server...')

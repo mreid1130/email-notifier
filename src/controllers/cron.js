@@ -39,4 +39,4 @@ setInterval(() => {
       checkPrimewire();
     }
   });
-}, 1000 * 60 * 10);
+}, 1000 * 60);
