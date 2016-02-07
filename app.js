@@ -1,16 +1,23 @@
 import 'dotenv/config';
 import express from 'express';
-import cron from './src/controllers/cron';
 import http from 'http';
+
+import './src/config/mongoose';
+import './src/config/aws';
+import cron from './src/controllers/cron/index';
 
 const app = express();
 
 app.set('port', (process.env.PORT || 5000));
 
 // handle any route to ping the server
-app.get('*', (req, res) => {
+app.get('/ping', (req, res) => {
   res.send('pong');
 });
+
+// routes ==================================================
+import routes from './src/controllers/routes/index';
+routes(app);
 
 // pings server every 30 minutes to keep heroku instance from sleeping
 const host = (process.env.NODE_ENV === 'production' ? 'star-wars-notifier.herokuapp.com' : 'localhost')
