@@ -5,6 +5,7 @@ import http from 'http';
 import './src/config/mongoose';
 import './src/config/aws';
 import cron from './src/controllers/cron/index';
+import redis from 'redis';
 
 const app = express();
 

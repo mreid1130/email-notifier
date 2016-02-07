@@ -2,6 +2,8 @@ import {
   Mailgun
 }
 from 'mailgun';
+import async from 'async';
+const mg = new Mailgun(process.env.MAILGUN_API_KEY);
 const sqs = new AWS.SQS();
 const params = {
   QueueUrl: process.env.QUEUE_URL
@@ -52,7 +54,6 @@ export function queueSubscriptions(next) {
   });
 };
 
-
 export function sendMail(next) {
   sqs.receiveMessage(params, function(err, data) {
     if (err) {
@@ -80,9 +81,18 @@ export function sendMail(next) {
             } else {
               console.log('Mail sent to: ' + user.localAuth.email + '. Finished at', new Date());
             }
-            next(err);
+            sqs.deleteMessage(sqsDeleteParams, (err, data) => {
+              if (err) {
+                console.log(err.stack);
+              }
+              next(null);
+            });
           }
         );
+      } else {
+        setTimeout(() => {
+          next();
+        }, 2000)
       }
     }
   });

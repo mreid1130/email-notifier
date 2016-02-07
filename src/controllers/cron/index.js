@@ -1,20 +1,19 @@
-import checkMedia from './checkMedia';
 import {
   queueSubscriptions,
   sendMail
 }
 from './userUpdates';
 import cron from 'cron';
+import primewireScraper from '../primewire.js';
 
-// check for new media every hour at the 30 minute mark
 new cron.CronJob('* 30 * * * *', () => {
-  console.log('Checking for media at', new Date());
-  checkMedia((err) => {
+  console.log('Starting primewire scraper run at', new Date());
+  primewireScraper((err) => {
     if (err) {
       console.log(err.stack);
     }
-    console.log('Done checking for new media at', new Date());
-  });
+    console.log('Primewire scraper run completed at', new Date());
+  })
 }, null, true, 'America/Los_Angeles');
 
 // queue subscriptions every hour at the 0 minute mark
