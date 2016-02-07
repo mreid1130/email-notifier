@@ -4,8 +4,8 @@ import cheerio from 'cheerio';
 import request from 'request';
 import async from 'async';
 
-export default (next) => {
-  let swUrl;
+export default (media, next) => {
+  let mediaUrl;
   let found = false;
   async.waterfall([
     (callback) => {
@@ -17,13 +17,13 @@ export default (next) => {
       });
       $('.index_container .index_item').each((i, elem) => {
         // checks all titles to check for a name match
-        if ($(elem).find('a:nth-of-type(1)').attr('title').replace(/^Watch /, '').match(/Star Wars/)) {
-          // if found, set the swUrl
-          swUrl = 'http://primewire.ag' + $(elem).find('a:nth-of-type(1)').attr('href');
+        if ($(elem).find('a:nth-of-type(1)').attr('title').replace(/^Watch /, '').match(new RegExp(media.title), 'gi')) {
+          // if found, set the mediaUrl
+          mediaUrl = 'http://primewire.ag' + $(elem).find('a:nth-of-type(1)').attr('href');
         }
       });
-      if (swUrl) {
-        request(swUrl, callback);
+      if (mediaUrl) {
+        request(mediaUrl, callback);
       } else {
         callback(null, null, null);
       }
@@ -44,7 +44,7 @@ export default (next) => {
     }
   ], (err) => {
     if (found) {
-      next(err, swUrl);
+      next(err, mediaUrl);
     } else {
       next(err, null);
     }
