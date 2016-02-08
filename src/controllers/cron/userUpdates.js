@@ -20,7 +20,6 @@ export function queueSubscriptions(next) {
   var updateSubsQueue = [];
 
   stream.on('data', (subscription) => {
-    console.log(subscription);
     if (subscription.user && subscription.media) {
       numSubsFound++;
       var params = {
