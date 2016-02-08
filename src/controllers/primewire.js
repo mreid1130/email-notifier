@@ -33,7 +33,6 @@ export default (next) => {
           });
         });
         async.eachSeries(mediaList, (movie, cb) => {
-          console.log(movie);
           var media;
           async.waterfall([
             (cb1) => {
