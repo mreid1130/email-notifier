@@ -31,7 +31,6 @@ export default (next) => {
         });
       });
       async.eachSeries(mediaList, (movie, cb) => {
-        console.log(movie.name);
         var media;
         async.waterfall([
           (cb1) => {
@@ -46,7 +45,6 @@ export default (next) => {
                 shortname: movie.shortname
               });
             } else {
-              console.log(doc);
               media = doc;
             }
             if (media.found) {

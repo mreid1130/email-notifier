@@ -13,7 +13,7 @@ new cron.CronJob('* 30 * * * *', () => {
       console.log(err.stack);
     }
     console.log('Primewire scraper run completed at', new Date());
-  })
+  });
 }, null, true, 'America/Los_Angeles');
 
 // queue subscriptions every hour at the 0 minute mark
