@@ -6,7 +6,7 @@ from './userUpdates';
 import cron from 'cron';
 import primewireScraper from '../primewire.js';
 
-new cron.CronJob('* */30 * * * *', () => {
+new cron.CronJob('* */5 * * * *', () => {
   console.log('Starting primewire scraper run at', new Date());
   primewireScraper((err) => {
     if (err) {
@@ -17,7 +17,7 @@ new cron.CronJob('* */30 * * * *', () => {
 }, null, true, 'America/Los_Angeles');
 
 // queue subscriptions every hour at the 0 minute mark
-new cron.CronJob('* */10 * * * *', () => {
+new cron.CronJob('* */2 * * * *', () => {
   console.log('Queueing subscriptions at', new Date());
   queueSubscriptions((err) => {
     if (err) {

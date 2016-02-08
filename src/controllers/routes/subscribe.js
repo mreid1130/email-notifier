@@ -31,7 +31,7 @@ export default (app) => {
           Media.findOne({
             title: req.body.title,
             shortname: req.body.shortname
-          }).exec(callback)
+          }).exec(callback);
         }, (doc, callback) => {
           if (!doc) {
             return callback(new Error('media not found'));

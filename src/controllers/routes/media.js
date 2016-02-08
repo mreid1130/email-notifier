@@ -7,10 +7,10 @@ export default (app) => {
       if (err) {
         res.send({
           error: err.message
-        })
+        });
       } else {
         res.send(docs);
       }
-    })
+    });
   });
 };
