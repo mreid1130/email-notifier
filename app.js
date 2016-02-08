@@ -6,8 +6,14 @@ import './src/config/mongoose';
 import './src/config/aws';
 import cron from './src/controllers/cron/index';
 import redis from 'redis';
+import bodyParser from 'body-parser';
 
 const app = express();
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({
+  extended: true
+}));
 
 app.set('port', (process.env.PORT || 5000));
 

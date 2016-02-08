@@ -8,13 +8,15 @@ export default (app) => {
     var user;
     var media;
     var subscription;
-    if (!req.body || !req.body.userEmail || !req.body.media || !req.body.media.shortname || !req.body.media.title) {
+    if (!req.body || !req.body.userEmail || !req.body.shortname || !req.body.title) {
       res.status(400).send('Missing parameters');
     } else {
       async.waterfall([
         (callback) => {
           User.findOne({
-            email: req.body.userEmail
+            localAuth: {
+              email: req.body.userEmail
+            }
           }).exec(callback);
         }, (doc, callback) => {
           if (!doc) {
@@ -27,12 +29,12 @@ export default (app) => {
             user = doc;
           }
           Media.findOne({
-            title: req.body.media.title,
-            shortname: req.body.media.shortname
+            title: req.body.title,
+            shortname: req.body.shortname
           }).exec(callback)
         }, (doc, callback) => {
           if (!doc) {
-            return callback('media not found');
+            return callback(new Error('media not found'));
           } else {
             media = doc;
           }
@@ -42,22 +44,26 @@ export default (app) => {
           }).exec(callback);
         }, (doc, callback) => {
           if (doc) {
-            return callback('already subscribed to this media')
+            return callback(new Error('already subscribed to this media'))
+          } else {
+            subscription = new Subscription({
+              user: user,
+              media: media,
+              mediaFound: media.found
+            });
           }
-          subscription = doc;
-          subscription.mediaFound = media.found;
           async.parallel([
             (cb) => {
               user.save(cb);
             }, (cb) => {
               subscription.save(cb);
             }
-          ], callback)
+          ], callback);
         }
       ], (err) => {
         if (err) {
           res.status(400).send({
-            error: error
+            error: err.message
           });
         } else {
           res.send('subscription creation complete');
