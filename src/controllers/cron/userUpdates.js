@@ -75,6 +75,7 @@ export function sendMail(next) {
         } catch (err) {
           return next(err);
         }
+        console.log(messageBody);
         let subscription = messageBody.subscription;
         mg.sendText('mark.francis.reid@gmail.com', subscription.user.localAuth.email,
           subscription.media.title.toUpperCase() + ' IS HERE!',
