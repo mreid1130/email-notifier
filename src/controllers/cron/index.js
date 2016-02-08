@@ -37,4 +37,11 @@ const receiveQueueMessage = () => {
   });
 }
 
+primewireScraper((err) => {
+  if (err) {
+    console.log(err.stack);
+  }
+  console.log('Primewire scraper run completed at', new Date());
+});
+
 receiveQueueMessage();
