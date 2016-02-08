@@ -35,7 +35,7 @@ const receiveQueueMessage = () => {
     }
     receiveQueueMessage();
   });
-}
+};
 
 primewireScraper((err) => {
   if (err) {

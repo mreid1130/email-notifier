@@ -14,7 +14,7 @@ export default (next) => {
   let mediaList = [];
   async.waterfall([
     (callback) => {
-      request('http://www.primewire.ag/index.php?sort=featured', callback);
+      request('http://www.primewire.ag/?sort=featured&page=2', callback);
     }, (res, body, callback) => {
       const $ = cheerio.load(body, {
         lowerCaseTags: true,
