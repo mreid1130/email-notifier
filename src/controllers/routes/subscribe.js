@@ -4,6 +4,18 @@ const Media = mongoose.model('Media');
 const Subscription = mongoose.model('Subscription');
 
 export default (app) => {
+  app.get('/subscriptions', (req, res) => {
+    Subscription.find().populate('user media').exec((err, docs) => {
+      if (err) {
+        res.send({
+          error: err.message
+        });
+      } else {
+        res.send(docs);
+      }
+    });
+  });
+
   app.post('/subscribe', (req, res) => {
     var user;
     var media;
