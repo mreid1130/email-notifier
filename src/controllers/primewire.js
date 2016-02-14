@@ -36,8 +36,7 @@ export default (next) => {
           async.waterfall([
             (cb1) => {
               Media.findOne({
-                shortname: movie.shortname,
-                title: movie.name
+                shortname: movie.shortname
               }).exec(cb1);
             }, (doc, cb1) => {
               if (!doc) {

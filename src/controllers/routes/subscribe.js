@@ -44,7 +44,8 @@ export default (app) => {
               media = new Media({
                 userCreated: true,
                 title: req.body.title,
-                found: false
+                found: false,
+                shortname: req.body.title.replace(/\s|\W/g, '')
               });
             } else {
               return callback(new Error('Error finding media with given title and shortname'));
