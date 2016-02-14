@@ -1,6 +1,7 @@
 import {
   queueSubscriptions,
-  sendMail
+  sendMail,
+  checkUserMedia
 }
 from './userUpdates';
 import cron from 'cron';
@@ -24,6 +25,18 @@ new cron.CronJob('00 */2 * * * *', () => {
       console.log(err.stack);
     }
     console.log('Done queueing subscriptions at', new Date());
+  });
+}, null, true, 'America/Los_Angeles');
+
+// update user created media every 10 minutes
+// new cron.CronJob('30 */10 * * * *', () => {
+new cron.CronJob('30 */10 * * * *', () => {
+  console.log('Updating custom user media at', new Date());
+  checkUserMedia((err) => {
+    if (err) {
+      console.log(err.stack);
+    }
+    console.log('Done updating user media at', new Date());
   });
 }, null, true, 'America/Los_Angeles');
 

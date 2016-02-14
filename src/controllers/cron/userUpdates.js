@@ -9,6 +9,7 @@ const params = {
   QueueUrl: process.env.QUEUE_URL
 };
 const Subscription = mongoose.model('Subscription');
+const Media = mongoose.model('Media');
 
 export function queueSubscriptions(next) {
   var stream = Subscription.find({
@@ -111,3 +112,50 @@ export function sendMail(next) {
     }
   });
 };
+
+export function checkUserMedia(next) {
+  async.waterfall([
+    (callback) => {
+      Media.find({
+        userCreated: true,
+        found: false
+      }).exec(callback);
+    }, (docs, callback) => {
+      async.each(docs, (media, cb) => {
+        Media.findOne({
+          userCreated: {
+            $ne: true
+          },
+          title: {
+            $regex: media.title,
+            $options: 'i'
+          }
+        }).exec((err, doc) => {
+          if (err) {
+            return cb(err);
+          }
+          if (doc) {
+            async.parallel([
+              (cb1) => {
+                media.found = true;
+                media.save(cb1);
+              }, (cb1) => {
+                Subscription.update({
+                  media: media
+                }, {
+                  media: doc,
+                  mediaFound: doc.found
+                }, {
+                  multi: true
+                }).exec(cb1);
+
+              }
+            ], cb)
+          } else {
+            cb(null);
+          }
+        })
+      }, callback);
+    }
+  ], next)
+}

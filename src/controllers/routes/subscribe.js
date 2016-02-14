@@ -8,7 +8,7 @@ export default (app) => {
     var user;
     var media;
     var subscription;
-    if (!req.body || !req.body.userEmail || !req.body.shortname || !req.body.title) {
+    if (!req.body || !req.body.userEmail || !req.body.title) {
       res.status(400).send('Missing parameters');
     } else {
       async.waterfall([
@@ -28,13 +28,28 @@ export default (app) => {
           } else {
             user = doc;
           }
-          Media.findOne({
-            title: req.body.title,
-            shortname: req.body.shortname
-          }).exec(callback);
+          if (req.body.shortname) {
+            Media.findOne({
+              title: req.body.title,
+              shortname: req.body.shortname
+            }).exec(callback);
+          } else {
+            Media.findOne({
+              title: req.body.title,
+              found: false
+            }).exec(callback);
+          }
         }, (doc, callback) => {
           if (!doc) {
-            return callback(new Error('media not found'));
+            if (!req.body.shortname) {
+              media = new Media({
+                userCreated: true,
+                title: req.body.title,
+                found: false
+              });
+            } else {
+              return callback(new Error('Error finding media with given title and shortname'));
+            }
           } else {
             media = doc;
           }
@@ -57,6 +72,8 @@ export default (app) => {
               user.save(cb);
             }, (cb) => {
               subscription.save(cb);
+            }, (cb) => {
+              media.save(cb);
             }
           ], callback);
         }

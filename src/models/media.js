@@ -15,6 +15,10 @@ const mediaSchema = mongoose.Schema({
   created: {
     type: Date,
     default: new Date()
+  },
+  userCreated: {
+    type: Boolean,
+    default: false
   }
 });
 

@@ -9,7 +9,6 @@ let redisClient = redis.createClient(process.env.HEROKU_REDIS_URL);
 let Media = mongoose.model('Media');
 
 export default (next) => {
-  let mediaUrl;
   let found = false;
   let numArray = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
   async.each(numArray, (num, numCb) => {
