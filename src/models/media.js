@@ -2,10 +2,7 @@ import mongoose from 'mongoose';
 
 const mediaSchema = mongoose.Schema({
   title: String,
-  shortname: {
-    type: String,
-    unique: true
-  },
+  shortname: String,
   found: {
     type: Boolean,
     default: false

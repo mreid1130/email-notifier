@@ -30,7 +30,6 @@ export default (app) => {
           }
           if (req.body.shortname) {
             Media.findOne({
-              title: req.body.title,
               shortname: req.body.shortname
             }).exec(callback);
           } else {
