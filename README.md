@@ -1,4 +1,5 @@
 # email notification system
+http://star-wars-notifier.herokuapp.com/
 
 **Subscribe to get alert for movie**
 ----
