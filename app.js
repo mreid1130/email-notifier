@@ -15,6 +15,10 @@ app.use(bodyParser.urlencoded({
   extended: true
 }));
 
+app.set('view engine', 'ejs');
+
+app.set('views', __dirname + '/src/views');
+
 app.set('port', (process.env.PORT || 5000));
 
 // handle any route to ping the server

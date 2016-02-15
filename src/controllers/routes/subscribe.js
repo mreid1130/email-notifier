@@ -16,25 +16,43 @@ export default (app) => {
     });
   });
 
+  app.get('/subscribe', (req, res) => {
+    res.render('form', {
+      title: "Subscribe", //page title
+      action: "/subscribe", //post action for the form
+      fields: [
+      {
+        name: 'email',
+        type: 'text',
+        property: 'required'
+      },
+      {
+        name: 'title',
+        type: 'text',
+        property: 'required'
+      }]
+    });
+  })
+
   app.post('/subscribe', (req, res) => {
     var user;
     var media;
     var subscription;
-    if (!req.body || !req.body.userEmail || !req.body.title) {
+    if (!req.body || !req.body.email || !req.body.title) {
       res.status(400).send('Missing parameters');
     } else {
       async.waterfall([
         (callback) => {
           User.findOne({
             localAuth: {
-              email: req.body.userEmail
+              email: req.body.email
             }
           }).exec(callback);
         }, (doc, callback) => {
           if (!doc) {
             user = new User({
               localAuth: {
-                email: req.body.userEmail
+                email: req.body.email
               }
             });
           } else {
@@ -46,9 +64,8 @@ export default (app) => {
             }).exec(callback);
           } else {
             Media.findOne({
-              title: req.body.title,
-              found: false
-            }).exec(callback);
+              title: req.body.title
+            }).populate('primewireCopy').exec(callback);
           }
         }, (doc, callback) => {
           if (!doc) {
@@ -63,7 +80,11 @@ export default (app) => {
               return callback(new Error('Error finding media with given title and shortname'));
             }
           } else {
-            media = doc;
+            if (doc.primewireCopy) {
+              media = doc.primewireCopy;
+            } else {
+              media = doc;
+            }
           }
           Subscription.findOne({
             user: user,

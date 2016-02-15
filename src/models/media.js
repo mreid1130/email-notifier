@@ -16,6 +16,10 @@ const mediaSchema = mongoose.Schema({
   userCreated: {
     type: Boolean,
     default: false
+  },
+  primewireCopy: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Media'
   }
 });
 
