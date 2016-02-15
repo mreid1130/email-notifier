@@ -137,7 +137,7 @@ export function checkUserMedia(next) {
           if (doc) {
             async.parallel([
               (cb1) => {
-                found = true;
+                media.found = true;
                 media.primewireCopy = doc._id;
                 media.save(cb1);
               }, (cb1) => {
