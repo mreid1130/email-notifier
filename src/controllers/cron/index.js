@@ -29,7 +29,6 @@ new cron.CronJob('00 */2 * * * *', () => {
 }, null, true, 'America/Los_Angeles');
 
 // update user created media every 10 minutes
-// new cron.CronJob('30 */10 * * * *', () => {
 new cron.CronJob('30 */10 * * * *', () => {
   console.log('Updating custom user media at', new Date());
   checkUserMedia((err) => {
