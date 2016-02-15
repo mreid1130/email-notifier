@@ -16,7 +16,7 @@ export default (app) => {
     });
   });
 
-  app.get('/subscribe', (req, res) => {
+  app.get('/', (req, res) => {
     res.render('form', {
       title: "Subscribe", //page title
       action: "/subscribe", //post action for the form
